@@ -6,6 +6,25 @@ A beautiful, feature-rich project management web application template built with
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![Tailwind](https://img.shields.io/badge/Tailwind-3.0+-38bdf8.svg)
 
+## 🌐 Live Demo
+
+**[🚀 View Live Demo](https://project-management-ten-silk.vercel.app/)**
+
+Experience the template in action! Visit the live deployment to explore all features.
+
+---
+
+## 📸 Preview
+
+<p align="center">
+  <img src="assets/lightmode.png" alt="Light Mode Preview" width="49%">
+  <img src="assets/darkmode.png" alt="Dark Mode Preview" width="49%">
+</p>
+
+<p align="center">
+  <em>Light Mode & Dark Mode - Seamless theme switching</em>
+</p>
+
 ---
 
 ## ✨ Features
