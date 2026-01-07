@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Project Management</title>
+    <link rel="icon" type="image/png" href="../../assets/logo.png">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            DEFAULT: 'hsl(190, 65%, 45%)',
+                            dark: 'hsl(190, 65%, 35%)',
+                            light: 'hsl(190, 65%, 95%)',
+                        },
+                        secondary: 'hsl(210, 60%, 50%)',
+                        accent: 'hsl(35, 85%, 60%)',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+
+    <!-- Mobile Menu Overlay -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"></div>
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+        <div class="p-6">
+            <!-- Logo -->
+            <div class="flex items-center gap-3 mb-8">
+                <img src="../../assets/logo.png" alt="Logo" class="w-10 h-10 rounded-full">
+                <span class="text-xl font-bold text-gray-800 dark:text-white">Project Hub</span>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="space-y-2">
+                <a href="../dashboard/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-primary text-white">
+                    <i class="fas fa-home w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="../projects/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-folder w-5"></i>
+                    <span>Projects</span>
+                </a>
+                <a href="../board/kanban.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-tasks w-5"></i>
+                    <span>Kanban Board</span>
+                </a>
+                <a href="../team/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-users w-5"></i>
+                    <span>Team</span>
+                </a>
+                <a href="../reports/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-chart-bar w-5"></i>
+                    <span>Reports</span>
+                </a>
+                <a href="../support/help.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <i class="fas fa-question-circle w-5"></i>
+                    <span>Help</span>
+                </a>
+            </nav>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="lg:ml-64 min-h-screen">
+        <!-- Top Bar -->
+        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30">
+            <div class="px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <button onclick="toggleMobileMenu()" class="lg:hidden text-gray-600 dark:text-gray-300">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+
+                    <div class="flex items-center gap-2 sm:gap-4 ml-auto">
+                        <button id="themeToggle"
+                            class="p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <i class="fas fa-moon text-gray-600 dark:text-gray-300"></i>
+                        </button>
+
+                        <div class="relative dropdown-container">
+                            <button onclick="toggleNotifications()"
+                                class="p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors relative">
+                                <i class="fas fa-bell text-gray-600 dark:text-gray-300"></i>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                            </button>
+                            <div id="notifDropdown"
+                                class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 dropdown-menu">
+                                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 class="font-semibold text-gray-800 dark:text-white">Notifications</h3>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <div
+                                        class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700">
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">New task assigned
+                                        </p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">You have been assigned
+                                            to "Homepage Design"</p>
+                                        <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                    </div>
+                                    <div class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">Project deadline
+                                            approaching</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Mobile App due in 3
+                                            days</p>
+                                        <p class="text-xs text-gray-500 mt-1">5 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative dropdown-container">
+                            <button onclick="toggleUserDropdown()"
+                                class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm">
+                                    JD</div>
+                            </button>
+                            <div id="userDropdown"
+                                class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 dropdown-menu">
+                                <a href="../account/profile.html"
+                                    class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                    <i class="fas fa-user mr-2"></i>Profile
+                                </a>
+                                <a href="../account/settings.html"
+                                    class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                    <i class="fas fa-cog mr-2"></i>Settings
+                                </a>
+                                <a href="#"
+                                    class="block px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Log Out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content -->
+        <div class="p-4 sm:p-6 lg:p-8">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-6 text-sm" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <span class="text-gray-800 dark:text-white font-medium">
+                            <i class="fas fa-home mr-2"></i>Dashboard
+                        </span>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 mb-6 sm:mb-8">
+                <!-- Active Projects -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 dark:bg-blue-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-folder-open text-xl sm:text-2xl text-blue-600 dark:text-blue-400"></i>
+                        </div>
+                        <span
+                            class="text-xs sm:text-sm font-semibold text-green-600 bg-green-100 dark:bg-green-900 dark:text-green-400 px-2 sm:px-3 py-1 rounded-full">
+                            +12%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-1">24</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Active Projects</p>
+                </div>
+
+                <!-- Total Tasks -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 sm:w-14 sm:h-14 bg-green-100 dark:bg-green-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-check-circle text-xl sm:text-2xl text-green-600 dark:text-green-400"></i>
+                        </div>
+                        <span
+                            class="text-xs sm:text-sm font-semibold text-blue-600 bg-blue-100 dark:bg-blue-900 dark:text-blue-400 px-2 sm:px-3 py-1 rounded-full">
+                            68%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-1">156</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Tasks Completed</p>
+                </div>
+
+                <!-- Team Members -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 sm:w-14 sm:h-14 bg-purple-100 dark:bg-purple-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-xl sm:text-2xl text-purple-600 dark:text-purple-400"></i>
+                        </div>
+                        <span
+                            class="text-xs sm:text-sm font-semibold text-orange-600 bg-orange-100 dark:bg-orange-900 dark:text-orange-400 px-2 sm:px-3 py-1 rounded-full">
+                            +3
+                        </span>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-1">48</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Team Members</p>
+                </div>
+
+                <!-- Budget -->
+                <div
+                    class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 hover:shadow-xl transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div
+                            class="w-12 h-12 sm:w-14 sm:h-14 bg-orange-100 dark:bg-orange-900 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-dollar-sign text-xl sm:text-2xl text-orange-600 dark:text-orange-400"></i>
+                        </div>
+                        <span
+                            class="text-xs sm:text-sm font-semibold text-green-600 bg-green-100 dark:bg-green-900 dark:text-green-400 px-2 sm:px-3 py-1 rounded-full">
+                            -8%
+                        </span>
+                    </div>
+                    <h3 class="text-2xl sm:text-3xl font-bold text-gray-800 dark:text-white mb-1">$84K</h3>
+                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Budget Utilized</p>
+                </div>
+            </div>
+
+            <!-- Projects & Activity Row -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 mb-6 sm:mb-8">
+                <!-- Active Projects List -->
+                <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white">Active Projects</h2>
+                        <a href="../projects/index.html" class="text-xs sm:text-sm text-primary hover:underline">View
+                            All</a>
+                    </div>
+
+                    <div class="space-y-4">
+                        <!-- Project 1 -->
+                        <div
+                            class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary transition-colors">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base mb-1">
+                                        Website Redesign</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Marketing Team • Due:
+                                        Jan 15, 2026</p>
+                                </div>
+                                <span
+                                    class="px-2 sm:px-3 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full text-xs font-medium">
+                                    On Track
+                                </span>
+                            </div>
+                            <div class="mb-2">
+                                <div
+                                    class="flex items-center justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                    <span>Progress</span>
+                                    <span>75%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-primary h-2 rounded-full" style="width: 75%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <div class="flex -space-x-2">
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-blue-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        AM
+                                    </div>
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-green-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        SK
+                                    </div>
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-orange-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        +2
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 2 -->
+                        <div
+                            class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary transition-colors">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base mb-1">
+                                        Mobile App Development</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Development Team •
+                                        Due: Feb 28, 2026</p>
+                                </div>
+                                <span
+                                    class="px-2 sm:px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 rounded-full text-xs font-medium">
+                                    At Risk
+                                </span>
+                            </div>
+                            <div class="mb-2">
+                                <div
+                                    class="flex items-center justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                    <span>Progress</span>
+                                    <span>45%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-yellow-500 h-2 rounded-full" style="width: 45%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <div class="flex -space-x-2">
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-purple-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        JD
+                                    </div>
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-pink-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        MK
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Project 3 -->
+                        <div
+                            class="border border-gray-200 dark:border-gray-700 rounded-lg p-4 hover:border-primary transition-colors">
+                            <div class="flex items-start justify-between mb-3">
+                                <div class="flex-1">
+                                    <h3 class="font-semibold text-gray-800 dark:text-white text-sm sm:text-base mb-1">
+                                        Cloud Migration</h3>
+                                    <p class="text-xs sm:text-sm text-gray-600 dark:text-gray-400">Infrastructure Team •
+                                        Due: Mar 30, 2026</p>
+                                </div>
+                                <span
+                                    class="px-2 sm:px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-xs font-medium">
+                                    Planning
+                                </span>
+                            </div>
+                            <div class="mb-2">
+                                <div
+                                    class="flex items-center justify-between text-xs sm:text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                    <span>Progress</span>
+                                    <span>20%</span>
+                                </div>
+                                <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                    <div class="bg-blue-500 h-2 rounded-full" style="width: 20%"></div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 mt-3">
+                                <div class="flex -space-x-2">
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-teal-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        RP
+                                    </div>
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-indigo-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        LC
+                                    </div>
+                                    <div
+                                        class="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-red-500 border-2 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs">
+                                        +4
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6">
+                    <h2 class="text-lg sm:text-xl font-bold text-gray-800 dark:text-white mb-6">Recent Activity</h2>
+
+                    <div class="space-y-4">
+                        <div class="flex gap-3">
+                            <div class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-xs sm:text-sm text-gray-800 dark:text-white font-medium">Task completed
+                                </p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">"Design Homepage" marked as
+                                    done</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">2 hours ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-xs sm:text-sm text-gray-800 dark:text-white font-medium">New comment</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Sarah added a comment on "API
+                                    Integration"</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">4 hours ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-xs sm:text-sm text-gray-800 dark:text-white font-medium">Project updated
+                                </p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Milestone "Phase 1" reached in
+                                    Website Redesign</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">Yesterday</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-xs sm:text-sm text-gray-800 dark:text-white font-medium">Team member
+                                    added</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Mike Johnson joined the
+                                    Development Team</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">2 days ago</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-3">
+                            <div class="w-2 h-2 bg-red-500 rounded-full mt-2 flex-shrink-0"></div>
+                            <div class="flex-1">
+                                <p class="text-xs sm:text-sm text-gray-800 dark:text-white font-medium">Deadline
+                                    approaching</p>
+                                <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Mobile App Development due in 5
+                                    days</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-500 mt-1">3 days ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <button
+                    class="bg-primary hover:bg-primary-dark text-white rounded-lg p-4 flex items-center gap-3 transition-colors text-left">
+                    <i class="fas fa-plus-circle text-xl sm:text-2xl"></i>
+                    <span class="font-semibold text-sm sm:text-base">New Project</span>
+                </button>
+
+                <button
+                    class="bg-secondary hover:opacity-90 text-white rounded-lg p-4 flex items-center gap-3 transition-opacity text-left">
+                    <i class="fas fa-clipboard-list text-xl sm:text-2xl"></i>
+                    <span class="font-semibold text-sm sm:text-base">Create Task</span>
+                </button>
+
+                <button
+                    class="bg-green-600 hover:bg-green-700 text-white rounded-lg p-4 flex items-center gap-3 transition-colors text-left">
+                    <i class="fas fa-user-plus text-xl sm:text-2xl"></i>
+                    <span class="font-semibold text-sm sm:text-base">Invite Member</span>
+                </button>
+
+                <button
+                    class="bg-orange-600 hover:bg-orange-700 text-white rounded-lg p-4 flex items-center gap-3 transition-colors text-left">
+                    <i class="fas fa-file-alt text-xl sm:text-2xl"></i>
+                    <span class="font-semibold text-sm sm:text-base">Generate Report</span>
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help - Project Management</title>
+    <link rel="icon" type="image/png" href="../../assets/logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { DEFAULT: 'hsl(190,65%,45%)', dark: 'hsl(190,65%,35%)', light: 'hsl(190,65%,95%)' }, secondary: 'hsl(210,60%,50%)', accent: 'hsl(35,85%,60%)' }, fontFamily: { poppins: ['Poppins', 'sans-serif'] } } } }</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"></div>
+
+    <aside id="sidebar"
+        class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-8">
+                <img src="../../assets/logo.png" alt="Logo" class="w-10 h-10 rounded-full">
+                <span class="text-xl font-bold text-gray-800 dark:text-white">Project Hub</span>
+            </div>
+            <nav class="space-y-2">
+                <a href="../dashboard/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-home w-5"></i><span>Dashboard</span></a>
+                <a href="../projects/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-folder w-5"></i><span>Projects</span></a>
+                <a href="../board/kanban.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-tasks w-5"></i><span>Kanban Board</span></a>
+                <a href="../team/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-users w-5"></i><span>Team</span></a>
+                <a href="../reports/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-chart-bar w-5"></i><span>Reports</span></a>
+                <a href="help.html" class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-primary text-white"><i
+                        class="fas fa-question-circle w-5"></i><span>Help</span></a>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="lg:ml-64 min-h-screen">
+        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30">
+            <div class="px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <button onclick="toggleMobileMenu()" class="lg:hidden text-gray-600 dark:text-gray-300"><i
+                            class="fas fa-bars text-xl"></i></button>
+
+                    <div class="flex items-center gap-2 sm:gap-4 ml-auto">
+                        <button id="themeToggle"
+                            class="p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                                class="fas fa-moon text-gray-600 dark:text-gray-300"></i></button>
+
+                        <div class="relative dropdown-container">
+                            <button onclick="toggleNotifications()"
+                                class="p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors relative">
+                                <i class="fas fa-bell text-gray-600 dark:text-gray-300"></i>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                            </button>
+                            <div id="notifDropdown"
+                                class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 dropdown-menu">
+                                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 class="font-semibold text-gray-800 dark:text-white">Notifications</h3>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <div
+                                        class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700">
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">New task assigned
+                                        </p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">You have been assigned
+                                            to "Homepage Design"</p>
+                                        <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                    </div>
+                                    <div class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">Project deadline
+                                            approaching</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Mobile App due in 3
+                                            days</p>
+                                        <p class="text-xs text-gray-500 mt-1">5 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative dropdown-container">
+                            <button onclick="toggleUserDropdown()"
+                                class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm">
+                                    JD</div>
+                            </button>
+                            <div id="userDropdown"
+                                class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 dropdown-menu">
+                                <a href="../account/profile.html"
+                                    class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                    <i class="fas fa-user mr-2"></i>Profile
+                                </a>
+                                <a href="../account/settings.html"
+                                    class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                    <i class="fas fa-cog mr-2"></i>Settings
+                                </a>
+                                <a href="#"
+                                    class="block px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Log Out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-4 sm:p-6 lg:p-8">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-6 text-sm" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="../dashboard/index.html" class="text-gray-600 dark:text-gray-400 hover:text-primary">
+                            <i class="fas fa-home mr-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li><span class="text-gray-400 mx-2">/</span></li>
+                    <li class="inline-flex items-center">
+                        <span class="text-gray-800 dark:text-white font-medium">Help</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Help Content -->
+            <div>
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl sm:text-4xl font-bold text-gray-800 dark:text-white mb-3">How can we help you?
+                    </h1>
+                    <p class="text-gray-600 dark:text-gray-400 text-lg">Find answers to common questions and learn how
+                        to use the platform</p>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="mb-8">
+                    <div class="relative max-w-2xl mx-auto">
+                        <input type="text" placeholder="Search for help..."
+                            class="w-full px-6 py-4 pl-14 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-800 text-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-primary shadow-lg">
+                        <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                    <a href="#"
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow text-center">
+                        <i class="fas fa-rocket text-4xl text-primary mb-3"></i>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-1">Getting Started</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Learn the basics</p>
+                    </a>
+
+                    <a href="#"
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow text-center">
+                        <i class="fas fa-video text-4xl text-green-500 mb-3"></i>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-1">Video Tutorials</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Watch and learn</p>
+                    </a>
+
+                    <a href="#"
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow text-center">
+                        <i class="fas fa-book text-4xl text-blue-500 mb-3"></i>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-1">Documentation</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Read detailed guides</p>
+                    </a>
+
+                    <a href="#"
+                        class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-xl transition-shadow text-center">
+                        <i class="fas fa-headset text-4xl text-purple-500 mb-3"></i>
+                        <h3 class="font-bold text-gray-800 dark:text-white mb-1">Contact Support</h3>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Get personalized help</p>
+                    </a>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                    <h2 class="text-2xl font-bold text-gray-800 dark:text-white mb-6">Frequently Asked Questions</h2>
+
+                    <div class="space-y-4">
+                        <details class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer">
+                            <summary
+                                class="font-semibold text-gray-800 dark:text-white flex items-center justify-between">
+                                How do I create a new project?
+                                <i class="fas fa-chevron-down text-primary"></i>
+                            </summary>
+                            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm">To create a new project, navigate
+                                to the Projects page and click the "New Project" button. Fill in the required details
+                                such as project name, description, team, priority, and dates. Once completed, click
+                                "Create Project" to save.</p>
+                        </details>
+
+                        <details class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer">
+                            <summary
+                                class="font-semibold text-gray-800 dark:text-white flex items-center justify-between">
+                                How do I add team members to a project?
+                                <i class="fas fa-chevron-down text-primary"></i>
+                            </summary>
+                            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm">Navigate to the Team page and click
+                                the "Invite Member" button. Enter their email address and assign appropriate
+                                permissions. They will receive an invitation to join your project.</p>
+                        </details>
+
+                        <details class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer">
+                            <summary
+                                class="font-semibold text-gray-800 dark:text-white flex items-center justify-between">
+                                What is the Kanban board used for?
+                                <i class="fas fa-chevron-down text-primary"></i>
+                            </summary>
+                            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm">The Kanban board helps you
+                                visualize your project workflow. Tasks move through different stages (To Do, In
+                                Progress, Review, Done) as they progress. You can add new tasks, assign them to team
+                                members, and track progress in real-time.</p>
+                        </details>
+
+                        <details class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer">
+                            <summary
+                                class="font-semibold text-gray-800 dark:text-white flex items-center justify-between">
+                                How do I view project reports?
+                                <i class="fas fa-chevron-down text-primary"></i>
+                            </summary>
+                            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm">Go to the Reports page to access
+                                comprehensive analytics and insights. You can filter by date range, project, team, or
+                                status. Reports include task completion rates, team performance, and project progress
+                                charts.</p>
+                        </details>
+
+                        <details class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer">
+                            <summary
+                                class="font-semibold text-gray-800 dark:text-white flex items-center justify-between">
+                                Can I customize my notification settings?
+                                <i class="fas fa-chevron-down text-primary"></i>
+                            </summary>
+                            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm">Yes! Navigate to Settings and
+                                scroll to the Notifications section. You can toggle email notifications, push
+                                notifications, task reminders, and project updates according to your preferences.</p>
+                        </details>
+
+                        <details class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 cursor-pointer">
+                            <summary
+                                class="font-semibold text-gray-800 dark:text-white flex items-center justify-between">
+                                How do I switch between light and dark mode?
+                                <i class="fas fa-chevron-down text-primary"></i>
+                            </summary>
+                            <p class="mt-3 text-gray-600 dark:text-gray-400 text-sm">Click the moon/sun icon in the
+                                header to toggle between light and dark mode. Your preference will be saved
+                                automatically. You can also set it to follow your system preference in Settings.</p>
+                        </details>
+                    </div>
+                </div>
+
+                <!-- Contact Support -->
+                <div
+                    class="mt-8 bg-gradient-to-r from-primary to-secondary rounded-xl shadow-lg p-8 text-center text-white">
+                    <i class="fas fa-life-ring text-5xl mb-4"></i>
+                    <h3 class="text-2xl font-bold mb-2">Still need help?</h3>
+                    <p class="mb-6 text-blue-100">Our support team is here to assist you</p>
+                    <button
+                        class="px-8 py-2.5 bg-white text-primary rounded-lg font-semibold hover:bg-gray-100 transition-colors">
+                        <i class="fas fa-envelope mr-2"></i>Contact Support
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>

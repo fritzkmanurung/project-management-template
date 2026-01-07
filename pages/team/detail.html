@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en" class="">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Member Detail - Project Management</title>
+    <link rel="icon" type="image/png" href="../../assets/logo.png">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>tailwind.config = { darkMode: 'class', theme: { extend: { colors: { primary: { DEFAULT: 'hsl(190,65%,45%)', dark: 'hsl(190,65%,35%)', light: 'hsl(190,65%,95%)' }, secondary: 'hsl(210,60%,50%)', accent: 'hsl(35,85%,60%)' }, fontFamily: { poppins: ['Poppins', 'sans-serif'] } } } }</script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
+
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden hidden"></div>
+
+    <aside id="sidebar"
+        class="fixed left-0 top-0 h-full w-64 bg-white dark:bg-gray-800 shadow-lg z-50 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
+        <div class="p-6">
+            <div class="flex items-center gap-3 mb-8">
+                <img src="../../assets/logo.png" alt="Logo" class="w-10 h-10 rounded-full">
+                <span class="text-xl font-bold text-gray-800 dark:text-white">Project Hub</span>
+            </div>
+            <nav class="space-y-2">
+                <a href="../dashboard/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-home w-5"></i><span>Dashboard</span></a>
+                <a href="../projects/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-folder w-5"></i><span>Projects</span></a>
+                <a href="../board/kanban.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-tasks w-5"></i><span>Kanban Board</span></a>
+                <a href="../team/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg bg-primary text-white"><i
+                        class="fas fa-users w-5"></i><span>Team</span></a>
+                <a href="../reports/index.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-chart-bar w-5"></i><span>Reports</span></a>
+                <a href="../support/help.html"
+                    class="flex items-center gap-3 px-4 py-2.5 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                        class="fas fa-question-circle w-5"></i><span>Help</span></a>
+            </nav>
+        </div>
+    </aside>
+
+    <main class="lg:ml-64 min-h-screen">
+        <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 sticky top-0 z-30">
+            <div class="px-4 sm:px-6 lg:px-8 py-4">
+                <div class="flex items-center justify-between">
+                    <button onclick="toggleMobileMenu()" class="lg:hidden text-gray-600 dark:text-gray-300"><i
+                            class="fas fa-bars text-xl"></i></button>
+
+                    <div class="flex items-center gap-2 sm:gap-4 ml-auto">
+                        <button id="themeToggle"
+                            class="p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"><i
+                                class="fas fa-moon text-gray-600 dark:text-gray-300"></i></button>
+
+                        <div class="relative dropdown-container">
+                            <button onclick="toggleNotifications()"
+                                class="p-2 sm:p-2.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors relative">
+                                <i class="fas fa-bell text-gray-600 dark:text-gray-300"></i>
+                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                            </button>
+                            <div id="notifDropdown"
+                                class="hidden absolute right-0 mt-2 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 dropdown-menu">
+                                <div class="p-4 border-b border-gray-200 dark:border-gray-700">
+                                    <h3 class="font-semibold text-gray-800 dark:text-white">Notifications</h3>
+                                </div>
+                                <div class="max-h-96 overflow-y-auto">
+                                    <div
+                                        class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer border-b border-gray-100 dark:border-gray-700">
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">New task assigned
+                                        </p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">You have been assigned
+                                            to "Homepage Design"</p>
+                                        <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                    </div>
+                                    <div class="p-3 hover:bg-gray-50 dark:hover:bg-gray-700 cursor-pointer">
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">Project deadline
+                                            approaching</p>
+                                        <p class="text-xs text-gray-600 dark:text-gray-400 mt-1">Mobile App due in 3
+                                            days</p>
+                                        <p class="text-xs text-gray-500 mt-1">5 hours ago</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="relative dropdown-container">
+                            <button onclick="toggleUserDropdown()"
+                                class="flex items-center gap-2 p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                                <div
+                                    class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white font-semibold text-sm">
+                                    JD</div>
+                            </button>
+                            <div id="userDropdown"
+                                class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 dropdown-menu">
+                                <a href="../account/profile.html"
+                                    class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                    <i class="fas fa-user mr-2"></i>Profile
+                                </a>
+                                <a href="../account/settings.html"
+                                    class="block px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-b border-gray-100 dark:border-gray-700">
+                                    <i class="fas fa-cog mr-2"></i>Settings
+                                </a>
+                                <a href="#"
+                                    class="block px-4 py-2.5 text-sm text-red-600 dark:text-red-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Log Out
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-4 sm:px-6 lg:p-8">
+            <!-- Breadcrumb -->
+            <nav class="flex mb-6 text-sm" aria-label="Breadcrumb">
+                <ol class="inline-flex items-center space-x-1 md:space-x-3">
+                    <li class="inline-flex items-center">
+                        <a href="../dashboard/index.html" class="text-gray-600 dark:text-gray-400 hover:text-primary">
+                            <i class="fas fa-home mr-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li><span class="text-gray-400 mx-2">/</span></li>
+                    <li class="inline-flex items-center">
+                        <a href="../team/index.html"
+                            class="text-gray-600 dark:text-gray-400 hover:text-primary">Team</a>
+                    </li>
+                    <li><span class="text-gray-400 mx-2">/</span></li>
+                    <li class="inline-flex items-center">
+                        <span class="text-gray-800 dark:text-white font-medium">John Doe</span>
+                    </li>
+                </ol>
+            </nav>
+
+            <!-- Team Member Profile -->
+            <div>
+                <!-- Header Section -->
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-6">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
+                        <div
+                            class="w-24 h-24 rounded-full bg-blue-500 flex items-center justify-center text-white text-4xl font-bold flex-shrink-0">
+                            JD
+                        </div>
+                        <div class="flex-1">
+                            <h1 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">John Doe</h1>
+                            <p class="text-lg text-primary font-semibold mb-3">Project Manager</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span
+                                    class="px-3 py-1 bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 rounded-full text-sm font-medium">Leadership</span>
+                                <span
+                                    class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full text-sm font-medium">Agile</span>
+                                <span
+                                    class="px-3 py-1 bg-purple-100 dark:bg-purple-900 text-purple-700 dark:text-purple-300 rounded-full text-sm font-medium">Scrum
+                                    Master</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <button
+                                    class="px-6 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-lg font-semibold transition-colors">
+                                    <i class="fas fa-envelope mr-2"></i>Send Message
+                                </button>
+                                <button
+                                    class="px-6 py-2.5 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-white rounded-lg font-semibold transition-colors">
+                                    <i class="fas fa-edit mr-2"></i>Edit Profile
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Left Column -->
+                    <div class="lg:col-span-1 space-y-6">
+                        <!-- Contact Info -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Contact Information</h2>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-3 text-sm">
+                                    <i class="fas fa-envelope w-5 text-gray-500"></i>
+                                    <span class="text-gray-600 dark:text-gray-400">john.doe@company.com</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <i class="fas fa-phone w-5 text-gray-500"></i>
+                                    <span class="text-gray-600 dark:text-gray-400">+1 (555) 123-4567</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <i class="fas fa-map-marker-alt w-5 text-gray-500"></i>
+                                    <span class="text-gray-600 dark:text-gray-400">San Francisco, CA</span>
+                                </div>
+                                <div class="flex items-center gap-3 text-sm">
+                                    <i class="fas fa-calendar w-5 text-gray-500"></i>
+                                    <span class="text-gray-600 dark:text-gray-400">Joined Jan 2023</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Stats -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Stats</h2>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Active Projects</span>
+                                        <span class="font-bold text-gray-800 dark:text-white">3</span>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Completed Projects</span>
+                                        <span class="font-bold text-gray-800 dark:text-white">15</span>
+                                    </div>
+                                    <div class="flex items-center justify-between mb-2">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Tasks This Month</span>
+                                        <span class="font-bold text-gray-800 dark:text-white">28</span>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600 dark:text-gray-400">Completion Rate</span>
+                                        <span class="font-bold text-green-600">94%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- Current Projects -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Current Projects</h2>
+                            <div class="space-y-4">
+                                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <h3 class="font-semibold text-gray-800 dark:text-white">Website Redesign</h3>
+                                        <span
+                                            class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-full text-xs">On
+                                            Track</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Marketing Team • Due: Jan
+                                        15, 2026</p>
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                        <span>Progress</span>
+                                        <span>75%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-primary h-2 rounded-full" style="width:75%"></div>
+                                    </div>
+                                </div>
+
+                                <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
+                                    <div class="flex items-start justify-between mb-2">
+                                        <h3 class="font-semibold text-gray-800 dark:text-white">Mobile App Development
+                                        </h3>
+                                        <span
+                                            class="px-3 py-1 bg-yellow-100 dark:bg-yellow-900 text-yellow-700 dark:text-yellow-300 rounded-full text-xs">At
+                                            Risk</span>
+                                    </div>
+                                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">Development Team • Due: Feb
+                                        28, 2026</p>
+                                    <div
+                                        class="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400 mb-1">
+                                        <span>Progress</span>
+                                        <span>45%</span>
+                                    </div>
+                                    <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                                        <div class="bg-yellow-500 h-2 rounded-full" style="width:45%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Recent Activity -->
+                        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                            <h2 class="text-xl font-bold text-gray-800 dark:text-white mb-4">Recent Activity</h2>
+                            <div class="space-y-4">
+                                <div class="flex gap-3">
+                                    <div class="w-2 h-2 bg-primary rounded-full mt-2 flex-shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">Completed task
+                                            "Design Homepage"</p>
+                                        <p class="text-xs text-gray-500 mt-1">2 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">Added comment on
+                                            "API Integration"</p>
+                                        <p class="text-xs text-gray-500 mt-1">5 hours ago</p>
+                                    </div>
+                                </div>
+                                <div class="flex gap-3">
+                                    <div class="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                                    <div>
+                                        <p class="text-sm font-medium text-gray-800 dark:text-white">Updated project
+                                            milestone</p>
+                                        <p class="text-xs text-gray-500 mt-1">Yesterday</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../../js/theme.js"></script>
+    <script src="../../js/main.js"></script>
+</body>
+
+</html>
